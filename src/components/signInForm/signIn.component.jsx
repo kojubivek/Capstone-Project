@@ -1,5 +1,5 @@
 import { async } from "@firebase/util";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import FormInput from "../../formInput/formInput.component";
 import {
   signInAuthWithEmailAndPassword,
@@ -7,6 +7,8 @@ import {
 } from "../../utils/firebase.utils";
 import Button from "../button/button.component";
 import "./signInForm.styles.scss";
+
+import { UserContext } from "../../context/user.context";
 
 const defaultFromFields = {
   email: "",
@@ -17,6 +19,8 @@ const SignInForm = () => {
   const [fromFields, setFromFields] = useState(defaultFromFields);
   const { email, password } = fromFields;
 
+  const { setCurrentUser } = useContext(UserContext);
+
   const resetFromFields = () => {
     setFromFields(defaultFromFields);
   };
@@ -24,13 +28,9 @@ const SignInForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (password) {
-      alert("password donot match");
-      return;
-    }
     try {
-      const reponse = await signInAuthWithEmailAndPassword(email, password);
-
+      const { user } = await signInAuthWithEmailAndPassword(email, password);
+      setCurrentUser(user);
       resetFromFields();
     } catch (error) {
       switch (error.code) {
