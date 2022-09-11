@@ -8,8 +8,6 @@ import {
 import Button from "../button/button.component";
 import "./signInForm.styles.scss";
 
-import { UserContext } from "../../context/user.context";
-
 const defaultFromFields = {
   email: "",
   password: "",
@@ -18,8 +16,6 @@ const defaultFromFields = {
 const SignInForm = () => {
   const [fromFields, setFromFields] = useState(defaultFromFields);
   const { email, password } = fromFields;
-
-  const { setCurrentUser } = useContext(UserContext);
 
   const resetFromFields = () => {
     setFromFields(defaultFromFields);
@@ -30,7 +26,7 @@ const SignInForm = () => {
 
     try {
       const { user } = await signInAuthWithEmailAndPassword(email, password);
-      setCurrentUser(user);
+
       resetFromFields();
     } catch (error) {
       switch (error.code) {
