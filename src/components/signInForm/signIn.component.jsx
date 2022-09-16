@@ -1,5 +1,5 @@
 import { async } from "@firebase/util";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import FormInput from "../../formInput/formInput.component";
 import {
   signInAuthWithEmailAndPassword,
